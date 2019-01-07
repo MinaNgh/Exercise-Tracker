@@ -11,7 +11,7 @@ app.get("/",(req, res)=>{
 app.use(express.static(__dirname+"/public"));
 
 mongoose.connect(process.env.DB_URL, { useNewUrlParser: true });
-mongoose.connect(DB_URL,{ useNewUrlParser: true });
+
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
