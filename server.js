@@ -3,14 +3,14 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const shortId = require("shortid");
-const dbUrl = "mongodb://mina:mina123456@ds139655.mlab.com:39655/fccmongo";
+
 
 app.get("/",(req, res)=>{
 	res.sendFile(__dirname+"/view/index.html");
 })
 app.use(express.static(__dirname+"/public"));
 
-// mongoose.connect(process.env.dbUrl, { useNewUrlParser: true });
+mongoose.connect(process.env.dbUrl, { useNewUrlParser: true });
 mongoose.connect(dbUrl,{ useNewUrlParser: true });
 var Schema = mongoose.Schema;
 
@@ -126,10 +126,8 @@ app.post("/api/exercise/add",(req,res)=>{
 
 app.get("/api/exercise/log/",(req,res)=>{
 	var userId = req.query.userId;
-	var from = new Date(req.query.from);
-	// res.send(new Date(req.query.from));
-	// var to = new Date(req.query.to);
-	var limit = req.query.limit;
+	// var from=null,to=null,limit=null;
+	
 	User.find({userId:userId},(err,dataUser)=>{
 		if(err){
 			//error handling
@@ -139,17 +137,41 @@ app.get("/api/exercise/log/",(req,res)=>{
 					error: "User not found"
 				})
 			}else{
-				// ,date: { $lte: from, $gte: to}
-				Excercise.find({userId: userId},(err,dataExe)=>{
+				
+				var query = Excercise.find({userId: userId});
+				
+				query.exec((err,dataExe)=>{
 					if(err){
 						//error handling
 					}else{
+						console.log(req.query.limit);
+						if(req.query.from !=undefined){
+							var from = new Date(req.query.from);
+							var dateFrom = from.toDateString();
+							query.where({date: { $gte: from}});
+						}else{
+							var dateFrom = undefined;
+						}
+						if(req.query.to !=undefined){
+							var to = new Date(req.query.to);
+							var dateTo = to.toDateString();
+							query.where({date: { $lte: to}});
+						}else{
+							var dateTo = undefined;
+						}
+						if(req.query.limit !=undefined){
+							var limit = req.query.limit;
+							query.limit(Number(limit));
+							var count = Number(limit)
+						}else{
+							var count = dataExe.length;
+						}
 						res.json({
 							id: dataUser[0].userId,
 							username: dataUser[0].username,
-							// from: from.toDateString(),
-							// to: to.toDateString(),
-							count: dataExe.length,
+							from: dateFrom,
+							to: dateTo,
+							count: count,
 							log: dataExe.map((value)=>{
 								return{
 									"description":value.description,
