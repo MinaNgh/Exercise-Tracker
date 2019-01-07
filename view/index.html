@@ -1,0 +1,31 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+	<div id="container" class="container-fluid">
+
+		<h1>Exercise tracker</h1>
+		<form class="form-group" id="" method="POST" action="/api/exercise/new-user ">
+			
+				<h3>Create a New User</h3>
+				<p>POST /api/exercise/new-user</p>
+				<input class="form-control " type="text" name="username" placeholder="username"><br/>
+				<input class="btn btn-primary" type="submit" name="submitUser">
+			
+		</form>
+		<form class="form-row" id="" method="POST" action="/api/exercise/add">
+			
+				<h3>Add exercises</h3>
+				<p>POST /api/exercise/add</p>
+				<input class="form-control " type="text" name="userId" placeholder="userId*"><br/>
+				<input class="form-control " type="text" name="description" placeholder="description*"><br/>
+				<input class="form-control " type="text" name="duration" placeholder="duration(mins)"><br/>
+				<input class="form-control " type="date" name="date" placeholder="date"><br/>
+				<input class="btn btn-primary" type="submit" name="submitExercise">
+			
+		</form>
+	</div>
+</body>
+</html>
