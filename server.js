@@ -10,7 +10,7 @@ app.get("/",(req, res)=>{
 })
 app.use(express.static(__dirname+"/public"));
 
-mongoose.connect(process.env.dbUrl, { useNewUrlParser: true });
+mongoose.connect(process.env.DB_URL, { useNewUrlParser: true });
 mongoose.connect(dbUrl,{ useNewUrlParser: true });
 var Schema = mongoose.Schema;
 
